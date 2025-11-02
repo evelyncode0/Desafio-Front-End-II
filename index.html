@@ -1,0 +1,40 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Início</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Evelyn Gregorio Machado</h1>
+    <p><strong>Curso:</strong> Análise e Desenvolvimento de Sistemas</p>
+    <p>Projeto desenvolvido para demonstrar a criação e validação de formulários web com armazenamento local de dados em JSON.</p>
+
+    <p><a href="form.html"><button>Ir ao formulário</button></a></p>
+
+    <hr>
+
+    <h2>Último registro salvo</h2>
+    <div id="last">
+        <!-- o pre serve para mostrar o conteúdo JSON com a formatação preservada (espaços e quebras de linha corretos). -->
+      <pre id="jsonContent">Nenhum registro salvo ainda.</pre>
+    </div>
+
+  <script>
+
+    // tenta mostrar o último salvo em localStorage
+    const display = document.getElementById('jsonContent');
+    const last = localStorage.getItem('lastSavedData'); //buscando no armazenamento local do navegador o ultimo dado salvo, se existir
+    if (last) {
+      try {
+        const obj = JSON.parse(last); //se existir o dadosalvo, converte o texto json para objeto
+        display.textContent = JSON.stringify(obj, null, 2);
+      } catch (e) {
+        display.textContent = last;
+      }
+    }
+  </script>
+</body>
+</html>

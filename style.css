@@ -1,0 +1,149 @@
+:root {
+  --bg-body: #f4f6fa;
+  --bg-card: #ffffff;
+  --primary: #2b6cb0;
+  --primary-hover: #1e4e8c;
+  --text-main: #222;
+  --text-muted: #666;
+  --error: #c53030;
+  --radius: 10px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  --transition: all 0.25s ease;
+  --font-main: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* corpo da página */
+body {
+  font-family: var(--font-main);
+  background: var(--bg-body);
+  color: var(--text-main);
+  margin: 0;
+  padding: 32px 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* container principal */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  padding: 32px 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.container:hover {
+  transform: translateY(-2px);
+}
+
+/* cabeçalhos */
+h1, h2 {
+  color: var(--primary);
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 1.8rem;
+  letter-spacing: -0.5px;
+}
+
+h2 {
+  font-size: 1.3rem;
+  margin-top: 28px;
+}
+
+/* Textos e links */
+p, small, label {
+  font-size: 1rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+small, small.note {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* campos de formulário */
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d0d7e2;
+  border-radius: var(--radius);
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(43, 108, 176, 0.15);
+}
+
+/* layout e mensagens de erro */
+.form-row {
+  margin-bottom: 16px;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* botões */
+button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(43, 108, 176, 0.15);
+}
+
+button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+button.secondary {
+  background: #555;
+}
+
+button.secondary:hover {
+  background: #333;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* blocos JSON */
+pre {
+  background: #f0f2f6;
+  padding: 12px;
+  border-radius: var(--radius);
+  overflow: auto;
+  font-size: 0.95rem;
+  border: 1px solid #e1e4e8;
+}

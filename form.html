@@ -1,0 +1,120 @@
+<!-- form.html -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Formulário</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Formulário</h1>
+    <p>Preencha os campos. Ao enviar, será exibida a página de confirmação.</p>
+
+    <form id="mainForm" novalidate> 
+        <!-- validações automaticas do navegador desativadas, pois assim as validações do javascript serão executadas -->
+      <div class="form-row">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" maxlength="50" />
+        <div class="error" id="nomeError"></div>
+      </div>
+
+      <div class="form-row">
+        <label for="sobrenome">Sobrenome</label>
+        <input id="sobrenome" type="text" maxlength="50" />
+        <div class="error" id="sobrenomeError"></div>
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" type="email" />
+        <div class="error" id="emailError"></div>
+      </div>
+
+      <div class="form-row">
+        <label for="idade">Idade</label>
+        <input id="idade" type="number" min="1" max="119" />
+        <div class="error" id="idadeError"></div>
+      </div>
+
+      <div class="row">
+        <button type="submit" id="submitBtn">Enviar</button>
+        <a href="index.html"><button type="button" class="secondary">Voltar</button></a>
+      </div>
+
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // variáveis para manipular todos os campos e mensagens de erro
+    const form = document.getElementById('mainForm');
+    const nome = document.getElementById('nome');
+    const sobrenome = document.getElementById('sobrenome');
+    const email = document.getElementById('email');
+    const idade = document.getElementById('idade');
+
+    const nomeError = document.getElementById('nomeError');
+    const sobrenomeError = document.getElementById('sobrenomeError');
+    const emailError = document.getElementById('emailError');
+    const idadeError = document.getElementById('idadeError');
+
+    // validações em tempo real (apenas para feedback)
+    nome.addEventListener('input', () => {
+      if (!validName(nome.value)) nomeError.textContent = 'Nome: 3 a 50 caracteres.';
+      else nomeError.textContent = '';
+    });
+    sobrenome.addEventListener('input', () => {
+      if (!validName(sobrenome.value)) sobrenomeError.textContent = 'Sobrenome: 3 a 50 caracteres.';
+      else sobrenomeError.textContent = '';
+    });
+    email.addEventListener('input', () => {
+      if (!validEmail(email.value)) emailError.textContent = 'Email inválido.';
+      else emailError.textContent = '';
+    });
+    idade.addEventListener('input', () => {
+      if (!validAge(idade.value)) idadeError.textContent = 'Idade: inteiro positivo menor que 120.';
+      else idadeError.textContent = '';
+    });
+
+    // submissão
+    form.addEventListener('submit', (e) => {
+      e.preventDefault(); //evita o envio tradicional e o recarregamento da page
+
+      //remove espaços extras e executa as funções de validação
+      const vNome = nome.value.trim();
+      const vSob = sobrenome.value.trim();
+      const vEmail = email.value.trim();
+      const vIdade = idade.value.trim();
+
+      const okNome = validName(vNome);
+      const okSob = validName(vSob);
+      const okEmail = validEmail(vEmail);
+      const okIdade = validAge(vIdade);
+
+      // mensagens de erro
+      nomeError.textContent = okNome ? '' : 'Nome: 3 a 50 caracteres.';
+      sobrenomeError.textContent = okSob ? '' : 'Sobrenome: 3 a 50 caracteres.';
+      emailError.textContent = okEmail ? '' : 'Email inválido.';
+      idadeError.textContent = okIdade ? '' : 'Idade: inteiro positivo menor que 120.';
+
+      if (!(okNome && okSob && okEmail && okIdade)) {
+        return; // não submeter se inválido
+      }
+
+      // se tudo ok, monta objeto e guarda no sessionStorage para o arquivo confirmation.html
+      const data = {
+        nome: vNome,
+        sobrenome: vSob,
+        email: vEmail,
+        idade: Number(vIdade)
+      };
+      
+      //memoria temporaria do navegador
+      sessionStorage.setItem('formData', JSON.stringify(data));
+      // redireciona para confirmation.html
+      window.location.href = 'confirmation.html';
+    });
+  </script>
+</body>
+</html>

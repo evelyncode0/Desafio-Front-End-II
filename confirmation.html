@@ -1,0 +1,81 @@
+<!-- confirmation.html -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Confirmação</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Confirmação dos Dados</h1>
+    <p>Confira os dados abaixo. Clique em "Confirmar e salvar" para gerar <code>data.json</code> e voltar para a página inicial.</p>
+
+    <!-- começará vazia e o js preencherá dinamicamente com os dados digitados no form.hmtl. -->
+    <div id="dados"></div>
+
+    <div style="margin-top:12px;">
+      <button id="confirmBtn">Confirmar e salvar</button>
+      <a href="form.html"><button class="secondary">Editar</button></a>
+    </div>
+
+    <!-- mensagens de feedback -->
+    <div id="msg" style="margin-top:12px"></div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    //teste de busca
+    //o código tenta buscar os dados que foram salvos no sessionStorage pela página
+    //se não encontrar significa que o usuário chegou aqui diretamente sem preencher o formulário
+    const busca = sessionStorage.getItem('formData');
+    if (!busca) {
+      alert('Nenhum dado encontrado. Você será redirecionado ao formulário.');
+      window.location.href = 'form.html';
+    }
+
+    //converte o texto json de volta para um objeto js e insere os valores nas tags
+    const data = JSON.parse(busca);
+    const dadosDiv = document.getElementById('dados');
+    dadosDiv.innerHTML = `
+      <p><strong>Nome:</strong> ${data.nome}</p>
+      <p><strong>Sobrenome:</strong> ${data.sobrenome}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Idade:</strong> ${data.idade}</p>
+    `;
+
+    const confirmBtn = document.getElementById('confirmBtn');
+    const msg = document.getElementById('msg');
+
+    confirmBtn.addEventListener('click', () => {
+      confirmBtn.disabled = true; //quando clicado é desativado para evitar varios clicks
+      msg.textContent = 'Preparando para salvar...';
+
+      // converte o objeto em json formatado com  2 espaços
+      //conteudo salvo no arquivo data.json
+      const jsonText = JSON.stringify({
+        nome: data.nome,
+        sobrenome: data.sobrenome,
+        email: data.email,
+        idade: data.idade
+      }, null, 2);
+
+      //salva em localStorage para o index.html ler
+      localStorage.setItem('lastSavedData', jsonText);
+
+      //dispara download automático de data.json
+      downloadFile('data.json', jsonText);
+
+      msg.textContent = 'Arquivo "data.json" gerado para download e dados salvos localmente. Redirecionando...';
+
+      // limpa sessionStorage e redireciona para index
+      sessionStorage.removeItem('formData');
+
+      //depois de 900 (0,9s) milissegundos redireciona automaticamente para index.html
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 900);
+    });
+  </script>
+</body>
+</html>
